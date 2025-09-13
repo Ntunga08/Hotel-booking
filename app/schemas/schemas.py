@@ -83,3 +83,26 @@ class PaymentBase(BaseModel):
     status: str
     class Config:
         orm_mode = True
+
+class PaymentCreate(PaymentBase):
+    class Config:
+        orm_mode = True
+
+class PaymentUpdate(BaseModel):
+    amount: Optional[int] = None
+    payment_date: Optional[str] = None
+    payment_method: Optional[str] = None
+    status: Optional[str] = None
+    class Config:
+        orm_mode = True
+
+class PaymentOut(PaymentBase):
+    id: int
+    class Config:
+        orm_mode = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+    class Config:
+        orm_mode = True
