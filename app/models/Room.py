@@ -12,6 +12,9 @@ class Room(Base):
     price = Column(Integer, nullable=False)
     image_path = Column(String, nullable=False)
 
+    Booking = relationship('Booking', back_populates='room') 
+    
+
 
 class user(Base):
     __tablename__ = 'users'
@@ -23,6 +26,10 @@ class user(Base):
     phone_number = Column(String, nullable=False)
     role = Column(String, nullable=False)
 
+    Bookings = relationship('Booking', back_populates='user')
+
+    
+
 class Booking(Base):
     __Booking__ = 'bookings'
     id = Column(Integer, primary_key=True, index=True)
@@ -32,5 +39,19 @@ class Booking(Base):
     check_out_date = Column(String, nullable=False)
     status = Column(String, nullable=False)
 
+    user = relationship('user', back_populates='Bookings')
+    room = relationship('Room', back_populates='Booking')
+    payments = relationship('Payment', back_populates='booking')
 
+class Payment(Base):
+    __tablename__ = 'payments'
+    id =Column(Integer, primary_key=True, index=True)
+    booking_id = Column(Integer, ForeignKey('bookings.id'), nullable=False)
+    amount = Column(Integer, nullable=False)
+    payment_date = Column(String, nullable=False)
+    payment_method = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+
+    booking = relationship('Booking', back_populates='payments')
+    
 
