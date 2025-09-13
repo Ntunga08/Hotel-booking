@@ -17,6 +17,20 @@ class user(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True, nullable=False)
-    email = (String, unique=True, index=True, nullable=False )
+    full_name = Column(String, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
+    phone_number = Column(String, nullable=False)
+    role = Column(String, nullable=False)
+
+class Booking(Base):
+    __Booking__ = 'bookings'
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    room_id = Column(Integer, ForeignKey('rooms.id'), nullable=False)
+    check_in_date = Column(String, nullable=False)
+    check_out_date = Column(String, nullable=False)
+    status = Column(String, nullable=False)
+
+
+
