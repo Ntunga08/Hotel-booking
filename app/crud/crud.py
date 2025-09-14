@@ -15,4 +15,18 @@ async def create_room(db: AsyncSession, room: schemas.RoomCreate) -> models.Room
     await db.refresh(db_room)
     return db_room
 
+async def get_room(db: AsyncSession, room_id: int) -> models.Room | None:
+    """recieve single room by id from database"""
+    result = await db.execute(select(models.Room).where(models.Room.id==room_id))
+    return result.scalars().first()
+
+async def get_room_by_number(db: AsyncSession, room_number: str) -> models.Room | None:
+    """recieve single room by room number from database"""
+    result = await db.execute(select(models.Room).where(models.Room.room_number==room_number))
+    return result.scalars().first() 
+
+async def get_rooms(db: AsyncSession, skip: int = 0, limit: int = 100) -> List[models.Room]:
+    """recieve all rooms from database"""
+    result = await db.execute(select(models.Room).offset(skip).limit(limit))
+    return result.scalars().all()   
 
