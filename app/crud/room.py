@@ -56,3 +56,20 @@ async def count_rooms(db: AsyncSession) -> int:
     """count total number of rooms in database"""
     result = await db.execute(select(func.count(models.Room.id)))
     return result.scalar_one()
+
+async def search_rooms(db: AsyncSession, room_type: Optional[str]= None, min_price: Optional[int]=None, max_price: Optional[int]=None ) -> List[models.Room]:
+    """search room based on room type and price range """
+    filters=[]
+    if room_type:
+        filters.append(models.Room.room_type.ilike(f"%{room_type}%"))
+    if min_price is not None:
+        filters.append(models.Room.price >= min_price)
+    if max_price is not None:
+        filters.append(models.Room.price <= max_price)
+    if filters:
+        query = select(models.Room).where(and_(*filters))
+    else:
+        query = select(models.Room)
+    result = await db.execute(query)
+    return result.scalars().all()  
+
