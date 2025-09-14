@@ -24,3 +24,4 @@ async def get_payment(db: AsyncSession, payment_id: int) -> Optional[models.Paym
 async def get_payments(db: AsyncSession, skip: int = 0, limit: int = 100) -> List[models.Payment]:
     result = await db.execute(select(models.Payment).offset(skip).limit(limit))
     return result.scalars().all()
+
