@@ -57,7 +57,7 @@ async def count_rooms(db: AsyncSession) -> int:
     result = await db.execute(select(func.count(models.Room.id)))
     return result.scalar_one()
 
-async def search_rooms(db: AsyncSession, room_type: Optional[str]= None, min_price: Optional[int]=None, max_price: Optional[int]=None ) -> List[models.Room]:
+async def search_rooms(db: AsyncSession, room_type: Optional[str]= None, min_price: Optional[float]=None, max_price: Optional[float]=None ) -> List[models.Room]:
     """search room based on room type and price range """
     filters=[]
     if room_type:

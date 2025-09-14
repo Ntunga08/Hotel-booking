@@ -9,3 +9,11 @@ from sqlalchemy import and_, or_
 from sqlalchemy import func
 
 """payment CRUD operations """
+async def create_payment(db: AsyncSession, payment: schemas.PaymentCreate) -> models.Payment:
+    db_payment = models.Payment(**payment.dict)
+    db.add(db_payment)
+    await db.commit()
+    await db.refresh (db_payment)  
+    return payment  
+
+async def                                            
