@@ -30,3 +30,29 @@ async def get_rooms(db: AsyncSession, skip: int = 0, limit: int = 100) -> List[m
     result = await db.execute(select(models.Room).offset(skip).limit(limit))
     return result.scalars().all()   
 
+async def update_room(db: AsyncSession, room_id: int, room: schemas.RoomUpdate) -> models.Room | None:
+    """update room in database"""
+    result = await db.execute(select(models.Room).where(models.Room.id==room_id))
+    db_room = result.scalars().first()
+    if db_room:
+        for var, value in vars(room).items():
+            setattr(db_room, var, value) if value else None
+        db.add(db_room)
+        await db.commit()
+        await db.refresh(db_room)
+        return db_room
+    return None
+
+async def delete_room(db: AsyncSession, room_id: int) -> models.Room | None:
+    """delete room from database"""
+    result = await db.execute(select(models.Room).where(models.Room.id==room_id))
+    db_room = result.scalars().first()
+    if db_room:
+        await db.delete(db_room)
+        await db.commit()
+        return db_room
+    return None
+async def count_rooms(db: AsyncSession) -> int:
+    """count total number of rooms in database"""
+    result = await db.execute(select(func.count(models.Room.id)))
+    return result.scalar_one()
