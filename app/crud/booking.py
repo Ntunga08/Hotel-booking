@@ -90,3 +90,4 @@ async def count_bookings_by_status(db: AsyncSession, status: str) -> int:
     result = await db.execute(select(func.count(models.Booking.id)).where(models.Booking.status==status))
     return result.scalar_one()
 
+
