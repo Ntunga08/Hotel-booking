@@ -32,7 +32,7 @@ class PesapalService:
                     "Amount": amount,
                     "Description": description,
                     "CallbackUrl": callback_url,
-                    "Currency": "KES"
+                    "Currency": "TZS"
                 }
             )
             
